@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
 
-// ignore: must_be_immutable
-class TodoCard extends StatefulWidget {
+class TodoCard extends StatelessWidget {
   final bool status;
   final String title;
-  void Function(bool?)? onChageStatus;
-  void Function()? onDeleteTodo;
+  final void Function(bool?)? onChageStatus;
+  final void Function()? onDeleteTodo;
 
-  TodoCard({
+  const TodoCard({
     super.key,
     required this.status,
     required this.title,
@@ -16,23 +16,19 @@ class TodoCard extends StatefulWidget {
   });
 
   @override
-  State<TodoCard> createState() => _TodoCardState();
-}
-
-class _TodoCardState extends State<TodoCard> {
-  @override
   Widget build(BuildContext context) {
+    developer.log('Rendering TodoCard: "$title", done: $status');
     return Card(
       child: ListTile(
-        leading: Checkbox(value: widget.status, onChanged: widget.onChageStatus),
+        leading: Checkbox(value: status, onChanged: onChageStatus),
         title: Text(
-          widget.title,
+          title,
           style: TextStyle(
-            decoration: widget.status ? TextDecoration.lineThrough : null,
+            decoration: status ? TextDecoration.lineThrough : null,
           ),
         ),
         trailing: IconButton(
-          onPressed: widget.onDeleteTodo,
+          onPressed: onDeleteTodo,
           icon: Icon(Icons.delete),
         ),
       ),

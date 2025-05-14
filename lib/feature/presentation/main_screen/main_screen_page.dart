@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_app/feature/presentation/photos/photo_page.dart';
+import 'package:test_app/feature/presentation/todos/bloc/todo_bloc.dart';
 import 'package:test_app/feature/presentation/todos/todo_page.dart';
 
 class MainScreenPage extends StatelessWidget {
@@ -22,9 +25,15 @@ class MainScreenPage extends StatelessWidget {
             height: 50,
             child: ElevatedButton(
               onPressed: () {
+                final TodoBloc todoBloc = context.read<TodoBloc>();
                 Navigator.of(
                   context,
-                ).push(MaterialPageRoute(builder: (_) => TodoPage()));
+                ).push(MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                    value: todoBloc,
+                    child: TodoPage(),
+                  ),
+                ));
               },
               child: Text('Todo Page'),
             ),
@@ -34,7 +43,10 @@ class MainScreenPage extends StatelessWidget {
             width: 220,
             height: 50,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => PhotoPage()));
+              },
               child: Text('Rest api page'),
             ),
           ),
